@@ -1,0 +1,8 @@
+apiVersion: configmanagement.gke.io/v1
+kind: ClusterSelector
+metadata:
+  name: state-nevada-sel
+spec:
+  selector:
+    matchLabels:
+      state: nevada
