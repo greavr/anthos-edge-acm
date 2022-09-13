@@ -1,1 +1,0 @@
-['apiVersion: configmanagement.gke.io/v1\n', 'kind: ClusterSelector\n', 'metadata:\n', '  name: state-virginia-sel\n', 'spec:\n', '  selector:\n', '    matchLabels:\n', '      state: virginia\n']
