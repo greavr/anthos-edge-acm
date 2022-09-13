@@ -1,0 +1,1 @@
+['apiVersion: configsync.gke.io/v1alpha1\n', 'kind: RepoSync\n', 'metadata:\n', '  annotations:\n', '    configmanagement.gke.io/cluster-selector: abm-us-east4-sel\n', '  name: repo-sync\n', 'spec:\n', '  git:\n', '    auth: none\n', '    branch: main\n', '    dir: /{cluster_name}\n', '    repo: https://github.com/greavr/anthos-edge-acm.git\n']
