@@ -1,0 +1,1 @@
+['apiVersion: clusterregistry.k8s.io/v1alpha1\n', 'kind: Cluster\n', 'metadata:\n', '  labels:\n', "    canary: '50'\n", '    loc: us-east4\n', '    region: east\n', '    state: virginia\n', '  name: abm-us-east4\n']
