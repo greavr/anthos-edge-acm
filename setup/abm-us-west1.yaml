@@ -1,9 +1,0 @@
-apiVersion: clusterregistry.k8s.io/v1alpha1
-kind: Cluster
-metadata:
-  labels:
-    canary: '10'
-    loc: us-west1
-    region: west
-    state: oregon
-  name: abm-us-west1
