@@ -1,0 +1,8 @@
+apiVersion: configmanagement.gke.io/v1
+kind: ClusterSelector
+metadata:
+  name: state-utah-sel
+spec:
+  selector:
+    matchLabels:
+      state: utah
