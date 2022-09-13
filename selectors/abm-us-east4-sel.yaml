@@ -1,0 +1,1 @@
+['apiVersion: configmanagement.gke.io/v1\n', 'kind: ClusterSelector\n', 'metadata:\n', '  name: abm-us-east4-sel\n', 'spec:\n', '  selector:\n', '    matchLabels:\n', '      loc: abm-us-east4\n']
