@@ -1,0 +1,8 @@
+apiVersion: configmanagement.gke.io/v1
+kind: ClusterSelector
+metadata:
+  name: state-south_carolina-sel
+spec:
+  selector:
+    matchLabels:
+      state: south_carolina
