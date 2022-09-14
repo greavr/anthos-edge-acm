@@ -1,0 +1,9 @@
+apiVersion: clusterregistry.k8s.io/v1alpha1
+kind: Cluster
+metadata:
+  labels:
+    canary: '50'
+    loc: us-central1
+    region: central
+    state: iowa
+  name: abm-us-central1
