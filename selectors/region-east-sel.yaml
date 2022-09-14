@@ -1,0 +1,8 @@
+apiVersion: configmanagement.gke.io/v1
+kind: ClusterSelector
+metadata:
+  name: region-east-sel
+spec:
+  selector:
+    matchLabels:
+      region: east
