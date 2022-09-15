@@ -1,0 +1,9 @@
+apiVersion: clusterregistry.k8s.io/v1alpha1
+kind: Cluster
+metadata:
+  labels:
+    canary: '50'
+    loc: us-west2
+    region: west
+    state: california
+  name: abm-us-west2
