@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<!--
+POS Functionality:
+- √ Select item 
+- √ Add item to bill 
+- Remove item from bill (select which item first)
+- √ View total price 
+- Pay bill
+- Cancel entire order
+- View employee name
+- View order #
+
+Non-functional buttons
+- Edit inventory
+- View previous orders
+- 
+- Print check
+-->
+
+<style>
+
+body {
+    background-color: rgb(136, 136, 136);
+    font-family: "Lucida Console", "Courier New", monospace;
+}
+
+table {
+    border-spacing: 5px;
+    font-family: "Lucida Console", "Courier New", monospace;
+    table-layout: fixed;
+    width: 100%;
+}
+
+
+#food-button {
+    background-color: rgb(247, 247, 159);
+    text-align: center;
+    width: 100%;
+    height: 100px;
+}
+
+#food-button:hover {
+    background-color: #c3c36d;
+}
+
+#checkout {
+    background-color: white;
+}
+
+#bill-wrapper {
+    background-color: white;
+    border-radius: 1px;
+    border-style: solid;
+    border-color: black;
+    height: 300px;
+}
+
+#bill-table-wrapper {
+    height: 270px;
+    overflow: auto;
+}
+
+#bill-header-td {
+    border-bottom: 2px solid black;
+}
+
+#menu-button {
+    background-color:rgb(108, 181, 220);
+    width: 100%;
+    height: 120px;
+}
+
+#menu-button:hover {
+    background-color: rgb(86, 154, 191);
+}
+
+#pay-button {
+    background-color:rgb(51, 168, 77);
+    width: 100%;
+    height: 140px;
+}
+
+#pay-button:hover {
+    background-color: rgb(18, 134, 43);
+}
+
+#bill-menu-button {
+    background-color: rgb(43, 43, 43);
+    color: white;
+    width: 100%;
+    height: 100px;
+}
+
+#bill-menu-button:hover {
+    background-color: rgb(29, 29, 29);
+}
+
+#lightbox-wrapper {
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(148, 148, 148, .9);
+    z-index: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    /* display: block; */
+}
+
+#lightbox {
+    width: 350px;
+    height: 250px;
+    /* margin: 50% 50% 50% 50%; */
+    background-color: white;    z-index: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    /* display: block; */
+}
+
+#pos-buttons {
+    z-index: -1;
+}
+
+/* Loading animation */
+.loader {
+  border: 10px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 10px solid #3498db;
+  width: 30px;
+  height: 30px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+/* ----------------- */
+
+</style>
+</head>
+
+<body>
+
+<div style="width: 100vw; height: 100vh;">
+    <h1 style="text-align: center;">Point of Sale System v1</h1>
+    <div style="width: 100%; height: 100%; display: table">
+        
+        <!-- Totals -->
+        <div id="checkout" style="width: 30%; height: 100%; display: table-cell">
+            <div>
+                <p id="order-num-p">Order #1</p>
+            </div>
+            <div id="bill-wrapper">
+                <div id="bill-table-wrapper">
+                    <table id="bill-table">
+                        <tr>
+                            <td id="bill-header-td" style="width: 70%;">Item</td>
+                            <td id="bill-header-td" style="width: 30%;">Price</td>
+                        </tr>
+                    </table>
+                </div>
+                <div style="border-top: 1px solid black">
+                    <table id="bill-total-table">
+                        <tr>
+                            <td style="width: 70%;">Total:</td>
+                            <td id="bill-total-td" style="width: 30%;"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <div style="width: 50%; display: table-cell">
+            <div style="display: table;">
+                <!-- Products -->
+                <div style=" width: 100%; height: 80%; display: table-row;">
+                    <table>
+                        <tr>
+                            <td id="food-td">
+                                <button id="food-button"
+                                    type="button"
+                                    value="Hamburger"
+                                    onClick="addToBill(this.value)">Hamburger</button>
+                            </td>
+                            <td id="food-td">
+                                <button id="food-button"
+                                    type="button"
+                                    value="Cheeseburger"
+                                    onClick="addToBill(this.value)">Cheeseburger</button>
+                            </td>
+                            <td id="food-td">
+                                <button id="food-button"
+                                    type="button"
+                                    value="Hotdog"
+                                    onClick="addToBill(this.value)">Hotdog</button>
+                            </td>
+                            <td id="food-td">
+                                <button id="food-button"
+                                    type="button"
+                                    value="Fries"
+                                    onClick="addToBill(this.value)">Fries</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td id="food-td">
+                                <button id="food-button"
+                                    type="button"
+                                    value="Coke"
+                                    onClick="addToBill(this.value)">Coke</button>
+                            </td>
+                            <td id="food-td">
+                                <button id="food-button"
+                                    type="button"
+                                    value="Pepsi"
+                                    onClick="addToBill(this.value)">Pepsi</button>
+                            </td>
+                            <td id="food-td">
+                                <button id="food-button"
+                                    type="button"
+                                    value="Dr. Pepper"
+                                    onClick="addToBill(this.value)">Dr. Pepper</button>
+                            </td>
+                            <td id="food-td">
+                                <button id="food-button"
+                                    type="button"
+                                    value="Juice"
+                                    onClick="addToBill(this.value)">Juice</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td id="food-td">
+                                <button id="food-button"
+                                    type="button"
+                                    value="Cookie"
+                                    onClick="addToBill(this.value)">Cookie</button>
+                            </td>
+                            <td id="food-td">
+                                <button id="food-button"
+                                    type="button"
+                                    value="Ice Cream"
+                                    onClick="addToBill(this.value)">Ice Cream</button>
+                            </td>
+                            <td id="food-td">
+                                <button id="food-button"
+                                    type="button"
+                                    value="Brownie"
+                                    onClick="addToBill(this.value)">Brownie</button>
+                            </td>
+                            <td id="food-td">
+                                <button id="food-button"
+                                    type="button"
+                                    value="Candy"
+                                    onClick="addToBill(this.value)">Candy</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td id="food-td">
+                                <button id="food-button"
+                                    type="button"
+                                    value="Ketchup"
+                                    onClick="addToBill(this.value)">Ketchup</button>
+                            </td>
+                            <td id="food-td">
+                                <button id="food-button"
+                                    type="button"
+                                    value="Mustard"
+                                    onClick="addToBill(this.value)">Mustard</button>
+                            </td>
+                            <td id="food-td">
+                                <button id="food-button"
+                                    type="button"
+                                    value="Mayonnaise"
+                                    onClick="addToBill(this.value)">Mayonnaise</button>
+                            </td>
+                            <td id="food-td">
+                                <button id="food-button"
+                                    type="button"
+                                    value="Ranch"
+                                    onClick="addToBill(this.value)">Ranch</button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <!-- Edit Bill -->
+                <div style="width: 100%; height: 20%; display: table-row;">
+                    <table>
+                        <tr>
+                            <td>
+                                <button id="bill-menu-button">Remove Item</button>
+                            </td>
+                            <td>
+                                <button id="bill-menu-button"
+                                        onclick="clearBill()">Clear All Items</button>
+                            </td>
+                            <td>
+                                <button id="bill-menu-button"
+                                        onclick="newOrder()">New Order</button>
+                            </td>
+                        </tr>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Menu -->
+        <div id="menu" style="width: 20%; height: 100%; display: table-cell">
+            <div>
+                <table style="width: 100%">
+                    <tr>
+                        <td><button id="menu-button">Edit Inventory</button></td>
+                    </tr>
+                    <tr>
+                        <td><button id="menu-button">View Previous Orders</button></td>
+                    </tr>
+                    <tr>
+                        <td><button id="menu-button"
+                                    onclick="toggleReceiptLightbox()">Print Check</button></td>
+                    </tr>
+                    <tr>
+                        <td><button id="pay-button"
+                                    onclick="togglePaymentLightbox()">Pay</button></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Processing payment lightbox -->
+<div id="lightbox-wrapper" style="display: none;">
+    <div id="lightbox" style="display: none;">
+        <table>
+            <tr>
+            <td><div class="loader"></div></td>
+            <td><p id="lightbox-p"></p>
+                <button
+                    onclick="togglePaymentLightbox()">Cancel</button>
+            </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<script>
+
+    var orderNum = 1;
+
+    const foods = ["Hamburger", "Cheeseburger", "Hotdog", "Fries"];
+    const drinks = ["Coke", "Pepsi", "Dr. Pepper", "Juice"];
+    const snacks = ["Cookie", "Ice Cream", "Brownie", "Candy"];
+    const condiments = ["Ketchup", "Mustard", "Mayonnaise", "Ranch"];
+    var prices = {
+        "foods": 5,
+        "drinks": 2.5,
+        "snacks": 3,
+        "condiments": 0.5,
+    }
+
+    var totalPrice = 0;
+
+    function addToBill(itemName) {
+        // Find a <table> element with id="bill":
+        var table = document.getElementById("bill-table");
+    
+        // Create an empty <tr> element and add it to the end position of the table:
+        var row = table.insertRow();
+    
+        // Insert new cells (<td> elements) at the 1st and 2nd position of the "new" <tr> element:
+        var item = row.insertCell();
+        var price = row.insertCell();
+    
+        // Add item and price to bill:
+        item.innerHTML = itemName;
+        var itemPrice = 1;
+        if (foods.includes(itemName)){ 
+            itemPrice = prices["foods"];
+        }
+        else if (drinks.includes(itemName)) {
+            itemPrice = prices["drinks"];
+        }
+        else if (snacks.includes(itemName)) {
+            itemPrice = prices["snacks"];
+        }
+        else if (condiments.includes(itemName)) {
+            itemPrice = prices["condiments"];
+        }
+        
+        var itemPriceString = itemPrice % 1 == 0 ? itemPrice.toString() + ".00" : itemPrice.toString() + "0" ;
+        price.innerHTML = "$" + itemPriceString;
+
+        item.style.width = "70%";
+        price.style.width = "30%";
+
+        addTotal(itemPrice);
+    }
+
+    function addTotal(itemPrice) {
+        // Get <td> holding total price
+        totalPrice += itemPrice;
+        var totalPriceString = totalPrice % 1 == 0 ? totalPrice.toString() + ".00" : totalPrice.toString() + "0" ;
+        document.getElementById("bill-total-td").innerHTML = "$" + totalPriceString;
+    } 
+    
+    function togglePaymentLightbox() {
+        var lightboxWrapper = document.getElementById("lightbox-wrapper");
+        var lightbox = document.getElementById("lightbox");
+
+        if (lightboxWrapper.style.display == "none" && lightbox.style.display == "none") {
+            lightboxWrapper.style.display = "block";
+            lightbox.style.display = "block";
+        } else {
+            lightboxWrapper.style.display = "none";
+            lightbox.style.display = "none";
+        }
+        
+        // Animate payment processing
+        var lightboxText = document.getElementById("lightbox-p");
+        lightboxText.innerHTML = "Payment processing...";
+        // clearTimeout(timeout);
+        timeout = setTimeout(function() {
+            lightboxText.innerHTML = "Payment successful!";
+        }, 2000);
+        timeout = setTimeout(function() {
+            lightboxWrapper.style.display = "none";
+        lightbox.style.display = "none";
+        }, 4000);
+
+        newOrder();
+
+    }
+
+    function toggleReceiptLightbox() {
+        var lightboxWrapper = document.getElementById("lightbox-wrapper");
+        var lightbox = document.getElementById("lightbox");
+
+        if (lightboxWrapper.style.display == "none" && lightbox.style.display == "none") {
+            lightboxWrapper.style.display = "block";
+            lightbox.style.display = "block";
+        } else {
+            lightboxWrapper.style.display = "none";
+            lightbox.style.display = "none";
+        }
+        
+        // Animate print receipt
+        var lightboxText = document.getElementById("lightbox-p");
+        lightboxText.innerHTML = "Printing receipt...";
+        timeout = setTimeout(function() {
+            lightboxWrapper.style.display = "none";
+        lightbox.style.display = "none";
+        }, 4000);
+    }
+
+    function clearBill() {
+        var billTable = document.getElementById("bill-table");
+        var numRows = billTable.rows.length;
+        for (let row = numRows-1; row > 0; row--){
+            console.log(row);
+            billTable.deleteRow(row);
+            console.log(numRows);
+        }
+
+        // Reset bill total
+        document.getElementById("bill-total-td").innerHTML = "";
+
+    }
+
+    function updateOrder() {
+        orderNum++;
+        document.getElementById("order-num-p").innerHTML = "Order #" + orderNum;
+    }
+
+    function newOrder() {
+        clearBill();
+        updateOrder();
+
+    }
+
+</script>
+
+</body>
+</html>
