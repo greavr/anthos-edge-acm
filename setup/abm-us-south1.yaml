@@ -1,0 +1,9 @@
+apiVersion: clusterregistry.k8s.io/v1alpha1
+kind: Cluster
+metadata:
+  labels:
+    canary: '50'
+    loc: us-south1
+    region: south
+    state: texas
+  name: abm-us-south1
