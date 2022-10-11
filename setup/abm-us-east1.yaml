@@ -1,9 +1,0 @@
-apiVersion: clusterregistry.k8s.io/v1alpha1
-kind: Cluster
-metadata:
-  labels:
-    canary: '10'
-    loc: us-east1
-    region: east
-    state: south_carolina
-  name: abm-us-east1
