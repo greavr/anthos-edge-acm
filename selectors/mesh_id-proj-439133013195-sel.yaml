@@ -1,8 +1,0 @@
-apiVersion: configmanagement.gke.io/v1
-kind: ClusterSelector
-metadata:
-  name: mesh_id-proj-439133013195-sel
-spec:
-  selector:
-    matchLabels:
-      mesh_id: proj-439133013195
