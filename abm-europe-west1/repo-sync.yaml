@@ -1,0 +1,12 @@
+apiVersion: configsync.gke.io/v1alpha1
+kind: RepoSync
+metadata:
+  annotations:
+    configmanagement.gke.io/cluster-selector: abm-europe-west1-sel
+  name: repo-sync
+spec:
+  git:
+    auth: none
+    branch: main
+    dir: /abm-europe-west1
+    repo: https://github.com/greavr/anthos-edge-acm.git
