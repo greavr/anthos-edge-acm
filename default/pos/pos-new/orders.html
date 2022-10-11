@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,400;1,500;1,700&display=swap" rel="stylesheet">
+<style>
+    body {
+        background-color: rgb(227, 227, 227);
+        font-family: "Ubuntu", sans-serif;
+        padding: 30px;
+        text-align: center;
+    }
+    
+    /* ----- Return Button ----- */
+    #return {
+        text-align: center;
+        text-decoration: none;
+        color: white;
+        background-color: rgb(21, 141, 202);
+        padding: 10px 100px;
+        margin-top: 10px;
+        border: 0px;
+        border-radius: 5px;
+    }
+
+    #return:hover {
+        background-color: rgb(18, 110, 157);
+    }
+    
+    #prev-orders-list {
+        list-style: none;
+        font-size: 12px;
+    }
+    
+    #prev-orders-div {
+        background-color: white;
+        height: 400px;
+        width: 80%;
+        overflow-y: auto;
+        margin: auto;
+        text-align: left;
+    }
+    
+    /* ----- Orders Scrollbar ----- */
+    #prev-orders-div::-webkit-scrollbar {
+        -webkit-appearance: none;
+    }
+    
+    #prev-orders-div::-webkit-scrollbar:vertical {
+        width: 11px;
+    }
+    
+    #prev-orders-div::-webkit-scrollbar:horizontal {
+        height: 11px;
+    }
+    
+    #prev-orders-div::-webkit-scrollbar-thumb {
+        /* border-radius: 8px; */
+        border: 2px solid white; /* should match background, can't be transparent */
+        background-color: black;
+    }
+</style>
+</head>
+<body>
+    <div id="main">
+        <h2>Previous orders</h2>
+        <div id="prev-orders-div">
+            <ul id="prev-orders-list">
+            </ul>
+        </div>
+        <a href="index.html">
+            <button id="return">Return</button></a>
+    </div>
+
+<!-- Firebase ------------------------------------------------------------------------->
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+<script type="text/javascript" src="auth.js"></script>
+<script type="text/javascript" src="firebase.js"></script>
+</body>
+</html>
