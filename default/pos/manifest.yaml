@@ -1,0 +1,84 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: pos
+  annotations:
+    istio-injection: enabled istio.io/rev-
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pos
+  namespace: pos
+  annotations:
+    prometheus.io/scrape: 'true'
+    prometheus.io/port:   '9113'
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pos
+  template:
+    metadata:
+      labels:
+        app: pos
+    spec:
+      containers:
+      - name: pos
+        image: gcr.io/anthos-edge-361104/pos:v1.1
+        imagePullPolicy: Always
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 60
+          periodSeconds: 5
+          timeoutSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
+      - name: nginx-exporter
+        image: 'nginx/nginx-prometheus-exporter:0.10.0'
+        args:
+          - '-nginx.scrape-uri=http://127.0.0.1/nginx_status'
+        resources:
+          limits:
+            memory: 128Mi
+            cpu: 500m
+        ports:
+          - containerPort: 9113
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pos
+  namespace: pos
+  annotations:
+    prometheus.io/scrape: 'true'
+    prometheus.io/port:   '9113'
+spec:
+  type: LoadBalancer
+  selector:
+    app: pos
+  ports:
+  - name: http
+    port: 80
+    targetPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pos-metrics
+  namespace: pos
+  annotations:
+    prometheus.io/scrape: 'true'
+    prometheus.io/port:   '9113'
+spec:
+  type: ClusterIP
+  selector:
+    app: pos
+  ports:
+  - name: http
+    port: 9113
+    targetPort: 9113
