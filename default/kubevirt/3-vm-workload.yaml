@@ -1,8 +1,6 @@
 apiVersion: cdi.kubevirt.io/v1alpha1
 kind: DataVolume
 metadata:
-  annotations:
-    configmanagement.gke.io/cluster-selector: do-not-schedule
   name: win-data-volume
 spec:
   pvc:
@@ -26,8 +24,6 @@ spec:
 apiVersion: kubevirt.io/v1alpha3
 kind: VirtualMachine
 metadata:
-  annotations:
-    configmanagement.gke.io/cluster-selector: do-not-schedule
   labels:
     kubevirt.io/vm: windows-generic-vm
     name: windows-generic-vm
