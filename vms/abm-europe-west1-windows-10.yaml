@@ -7,8 +7,8 @@ metadata:
 spec:
   size: 10G
   source:
-    http:
-      url: gs://rgreaves-gke-chaos-kubevirt/windows-generic.qcow2
+    https:
+      url: https://storage.googleapis.com/rgreaves-gke-chaos-kubevirt//windows-generic.qcow2
   storageClassName: local-disks
 
 ---
