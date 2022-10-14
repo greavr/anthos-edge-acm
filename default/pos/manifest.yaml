@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
       - name: pos
-        image: gcr.io/anthos-edge-361104/pos:v1.1
+        image: gcr.io/anthos-edge-361104/pos:v1
         imagePullPolicy: Always
         readinessProbe:
           httpGet:
