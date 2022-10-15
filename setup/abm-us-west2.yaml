@@ -3,7 +3,7 @@ kind: Cluster
 metadata:
   labels:
     canary: '50'
-    continent: usa
+    continent: us
     loc: us-west2
     mesh_id: proj-439133013195
   name: abm-us-west2
