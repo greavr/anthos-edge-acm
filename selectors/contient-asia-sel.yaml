@@ -1,0 +1,8 @@
+apiVersion: configmanagement.gke.io/v1
+kind: ClusterSelector
+metadata:
+  name: contient-asia-sel
+spec:
+  selector:
+    matchLabels:
+      contient: asia
