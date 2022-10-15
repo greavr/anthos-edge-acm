@@ -31,8 +31,7 @@ spec:
           - mountPath: /etc/grafana/provisioning/dashboards
             name: grafana-dashboards
             readOnly: false
-          - mountPath: /var/lib/grafana
-            name: grafana-data
+
           - mountPath: /etc/grafana/grafana.ini
             name: grafana-config
             subPath: grafana.ini
@@ -41,9 +40,6 @@ spec:
         configMap:
             defaultMode: 420
             name: grafana-datasources
-      - name: grafana-data
-        persistentVolumeClaim:
-          claimName: grafana-pvc
       - name: grafana-config
         configMap:
           name: grafana-config
