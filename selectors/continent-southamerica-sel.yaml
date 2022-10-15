@@ -1,0 +1,8 @@
+apiVersion: configmanagement.gke.io/v1
+kind: ClusterSelector
+metadata:
+  name: continent-southamerica-sel
+spec:
+  selector:
+    matchLabels:
+      continent: southamerica
