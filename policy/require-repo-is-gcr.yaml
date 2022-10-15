@@ -1,0 +1,19 @@
+apiVersion: constraints.gatekeeper.sh/v1beta1
+kind: K8sAllowedRepos
+metadata:
+  annotations:
+    configsync.gke.io/cluster-name-selector: continent-asia-sel,continent-europe-sel,continent-australia-sel,canary-10-sel,canary-25-sel,canary-50-sel
+    configsync.gke.io/cluster-selector: BLANK
+  name: require-repo-is-gcr
+spec:
+  match:
+    kinds:
+    - apiGroups:
+      - ''
+      kinds:
+      - Pod
+    namespaces:
+    - default
+  parameters:
+    repos:
+    - gcr.io/
