@@ -3,7 +3,7 @@ kind: Cluster
 metadata:
   labels:
     canary: '100'
-    continent: south-america
+    continent: southamerica
     loc: southamerica-west1
     mesh_id: proj-439133013195
   name: abm-southamerica-west1
