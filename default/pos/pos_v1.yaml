@@ -6,7 +6,6 @@ metadata:
   annotations:
     prometheus.io/scrape: 'true'
     prometheus.io/port: '9113'
-    configmanagement.gke.io/cluster-selector: abm-northamerica-northeast2-sel,continent-north-america-sel,abm-europe-west4-sel,abm-europe-central2-sel,abm-asia-east1-sel,continent-australia-sel,abm-asia-northeast3-sel,abm-europe-southwest1-sel,abm-europe-west8-sel,abm-asia-northeast2-sel,abm-asia-south1-sel,abm-europe-west9-sel,continent-europe-sel,canary-25-sel,abm-us-west3-sel,abm-europe-west6-sel,abm-asia-southeast1-sel,abm-us-west4-sel,abm-us-south1-sel,abm-asia-northeast1-sel,abm-souththamerica-west1-sel,abm-us-west1-sel,abm-us-west2-sel,abm-australia-southeast1-sel,canary-100-sel,continent-south-america-sel,abm-northamerica-northeast1-sel,abm-us-east1-sel,abm-souththamerica-east1-sel,abm-us-central1-sel,abm-asia-south2-sel,abm-australia-southeast2-sel,abm-europe-west3-sel,continent-asia-sel,abm-us-east4-sel,canary-10-sel,continent-usa-sel,abm-asia-southeast2-sel,canary-50-sel,abm-europe-north1-sel,abm-europe-west1-sel,abm-europe-west2-sel
 spec:
   replicas: 1
   selector:
