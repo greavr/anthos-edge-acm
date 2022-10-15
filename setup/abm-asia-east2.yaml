@@ -3,7 +3,7 @@ kind: Cluster
 metadata:
   labels:
     canary: '50'
-    continent: asia
+    contient: asia
     loc: asia-east2
     mesh_id: proj-439133013195
   name: abm-asia-east2
