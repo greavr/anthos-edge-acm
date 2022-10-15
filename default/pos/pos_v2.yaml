@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   annotations:
     configmanagement.gke.io/cluster-selector: blank-sel
-    configsync.gke.io/cluster-name-selector: abm-europe-southwest1,abm-asia-northeast1,abm-us-west4,abm-us-central1,abm-europe-north1,abm-asia-south1,abm-europe-west1,abm-europe-west3,abm-asia-northeast2,abm-southamerica-east1,abm-us-west3,abm-us-east1
+    configsync.gke.io/cluster-selector: blank-sel
     prometheus.io/port: '9113'
     prometheus.io/scrape: 'true'
   name: pos
