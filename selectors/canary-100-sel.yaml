@@ -1,0 +1,8 @@
+apiVersion: configmanagement.gke.io/v1
+kind: ClusterSelector
+metadata:
+  name: canary-100-sel
+spec:
+  selector:
+    matchLabels:
+      canary: '100'
