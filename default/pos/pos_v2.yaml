@@ -6,7 +6,7 @@ metadata:
   annotations:
     prometheus.io/scrape: 'true'
     prometheus.io/port: '9113'
-    configmanagement.gke.io/cluster-selector: BLANK
+    configmanagement.gke.io/cluster-selector: blank-sel
 spec:
   replicas: 1
   selector:
