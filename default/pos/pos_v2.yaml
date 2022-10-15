@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
+    configmanagement.gke.io/cluster-selector: blank-sel
     configsync.gke.io/cluster-selector: blank-sel
     prometheus.io/port: '9113'
     prometheus.io/scrape: 'true'
