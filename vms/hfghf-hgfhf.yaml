@@ -1,0 +1,30 @@
+apiVersion: vm.cluster.gke.io/v1
+kind: VirtualMachineDisk
+metadata:
+  annotations:
+    configmanagement.gke.io/cluster-selector: hfghf-sel
+  name: vm-disk
+spec:
+  size: 10G
+  source:
+    https:
+      url: hgfhf
+  storageClassName: local-disks
+
+---
+apiVersion: vm.cluster.gke.io/v1
+kind: VirtualMachine
+metadata:
+  annotations:
+    configmanagement.gke.io/cluster-selector: hfghf-sel
+  name: hgfhf
+spec:
+  compute:
+    cpu:
+      vcpus: '2'
+    memory:
+      capacity: 2GiB
+  disks:
+  - boot: 'true'
+    virtualMachineDiskName: vm-disk
+  osType: linux
