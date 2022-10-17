@@ -1,8 +1,0 @@
-apiVersion: configmanagement.gke.io/v1
-kind: ClusterSelector
-metadata:
-  name: continent-europe-sel
-spec:
-  selector:
-    matchLabels:
-      continent: europe
