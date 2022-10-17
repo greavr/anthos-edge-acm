@@ -1,0 +1,8 @@
+apiVersion: configmanagement.gke.io/v1
+kind: ClusterSelector
+metadata:
+  name: abm-asia-east2-sel
+spec:
+  selector:
+    matchLabels:
+      loc: asia-east2
