@@ -1,6 +1,0 @@
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: rotf
-  annotations:
-    istio-injection: enabled istio.io/rev-
