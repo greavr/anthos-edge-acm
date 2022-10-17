@@ -40,7 +40,7 @@ spec:
   serviceAccountName: scrape-sa
   containers:
   - name: scrape
-    image: gcr.io/rgreaves-gke-chaos/scrape
+    image: gcr.io/anthos-edge-361104/scrape
     imagePullPolicy: Always
     env:
     - name: GCP_PROJECT
