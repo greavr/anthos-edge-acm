@@ -1,9 +1,0 @@
-apiVersion: clusterregistry.k8s.io/v1alpha1
-kind: Cluster
-metadata:
-  labels:
-    canary: '10'
-    continent: asia
-    loc: asia-south1
-    mesh_id: proj-439133013195
-  name: abm-asia-south1
