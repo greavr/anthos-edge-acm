@@ -1,9 +1,0 @@
-apiVersion: clusterregistry.k8s.io/v1alpha1
-kind: Cluster
-metadata:
-  labels:
-    canary: '50'
-    continent: us
-    loc: us-east4
-    mesh_id: proj-439133013195
-  name: abm-us-east4
