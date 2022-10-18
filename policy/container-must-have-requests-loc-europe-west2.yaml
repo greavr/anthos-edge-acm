@@ -1,0 +1,16 @@
+apiVersion: constraints.gatekeeper.sh/v1beta1
+kind: K8sContainerRequests
+metadata:
+  annotations:
+    configmanagement.gke.io/cluster-selector: loc-europe-west2-sel
+  name: container-must-have-requests
+spec:
+  match:
+    kinds:
+    - apiGroups:
+      - ''
+      kinds:
+      - Pod
+  parameters:
+    cpu: 200m
+    memory: 1Gi
