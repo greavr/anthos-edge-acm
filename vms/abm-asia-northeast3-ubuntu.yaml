@@ -1,0 +1,30 @@
+apiVersion: vm.cluster.gke.io/v1
+kind: VirtualMachineDisk
+metadata:
+  annotations:
+    configmanagement.gke.io/cluster-selector: abm-asia-northeast3-sel
+  name: vm-disk
+spec:
+  size: 10G
+  source:
+    https:
+      url: https://storage.googleapis.com/rgreaves-gke-chaos-kubevirt/ubuntu-20.04-server-cloudimg-amd64.img
+  storageClassName: local-disks
+
+---
+apiVersion: vm.cluster.gke.io/v1
+kind: VirtualMachine
+metadata:
+  annotations:
+    configmanagement.gke.io/cluster-selector: abm-asia-northeast3-sel
+  name: ubuntu
+spec:
+  compute:
+    cpu:
+      vcpus: '2'
+    memory:
+      capacity: 2GiB
+  disks:
+  - boot: 'true'
+    virtualMachineDiskName: vm-disk
+  osType: linux
