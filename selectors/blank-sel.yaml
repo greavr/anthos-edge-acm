@@ -1,0 +1,8 @@
+apiVersion: configmanagement.gke.io/v1
+kind: ClusterSelector
+metadata:
+  name: blank-sel
+spec:
+  selector:
+    matchLabels:
+      loc: BLANK
