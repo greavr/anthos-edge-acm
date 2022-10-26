@@ -1,12 +1,12 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  annotations:
+    configsync.gke.io/cluster-name-selector: abm-us-west2,abm-us-west3,abm-us-west1,abm-us-west4,abm-us-central1,abm-us-south1,abm-us-east1,abm-us-east4
+    prometheus.io/port: '9113'
+    prometheus.io/scrape: 'true'
   name: pos
   namespace: pos
-  annotations:
-    prometheus.io/scrape: 'true'
-    prometheus.io/port: '9113'
-    configmanagement.gke.io/cluster-selector: blank-sel
 spec:
   replicas: 1
   selector:
@@ -18,9 +18,13 @@ spec:
         app: pos
     spec:
       containers:
-      - name: pos
-        image: gcr.io/anthos-edge-361104/pos:v2
+      - image: gcr.io/anthos-edge-361104/pos:v2
         imagePullPolicy: Always
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
+        name: pos
         readinessProbe:
           httpGet:
             path: /
@@ -28,17 +32,13 @@ spec:
           initialDelaySeconds: 60
           periodSeconds: 5
           timeoutSeconds: 10
-        livenessProbe:
-          httpGet:
-            path: /
-            port: 80
-      - name: nginx-exporter
-        image: nginx/nginx-prometheus-exporter:0.10.0
-        args:
+      - args:
         - -nginx.scrape-uri=http://127.0.0.1/nginx_status
-        resources:
-          limits:
-            memory: 128Mi
-            cpu: 500m
+        image: nginx/nginx-prometheus-exporter:0.10.0
+        name: nginx-exporter
         ports:
         - containerPort: 9113
+        resources:
+          limits:
+            cpu: 500m
+            memory: 128Mi
