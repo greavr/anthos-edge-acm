@@ -1,0 +1,30 @@
+apiVersion: vm.cluster.gke.io/v1
+kind: VirtualMachineDisk
+metadata:
+  annotations:
+    configmanagement.gke.io/cluster-selector: abm-us-west3-sel
+  name: vm-disk
+spec:
+  size: 10G
+  source:
+    https:
+      url: https://storage.googleapis.com/rgreaves-gke-chaos-kubevirt/windows-generic.qcow2
+  storageClassName: local-disks
+
+---
+apiVersion: vm.cluster.gke.io/v1
+kind: VirtualMachine
+metadata:
+  annotations:
+    configmanagement.gke.io/cluster-selector: abm-us-west3-sel
+  name: windows_10
+spec:
+  compute:
+    cpu:
+      vcpus: 2
+    memory:
+      capacity: 2GiB
+  disks:
+  - boot: true
+    virtualMachineDiskName: vm-disk
+  osType: Windows
