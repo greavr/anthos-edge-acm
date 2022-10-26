@@ -1,0 +1,8 @@
+apiVersion: configmanagement.gke.io/v1
+kind: ClusterSelector
+metadata:
+  name: abm-us-east4-sel
+spec:
+  selector:
+    matchLabels:
+      loc: us-east4
