@@ -1,0 +1,265 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: rotf-schema
+  namespace: rotf
+data:
+  initialize-database.sql: |
+    SET statement_timeout = 0;
+    SET lock_timeout = 0;
+    SET idle_in_transaction_session_timeout = 0;
+    SET client_encoding = 'UTF8';
+    SET standard_conforming_strings = on;
+    SELECT pg_catalog.set_config('search_path', '', false);
+    SET check_function_bodies = false;
+    SET xmloption = content;
+    SET client_min_messages = warning;
+    SET row_security = off;
+
+    SET default_tablespace = '';
+
+    SET default_table_access_method = heap;
+
+    CREATE TABLE public.food_beverage (
+        state character varying,
+        name character varying,
+        type character varying,
+        meta character varying,
+        id integer NOT NULL,
+        status character varying
+    );
+
+    CREATE SEQUENCE public.food_beverage_id_seq
+        AS integer
+        START WITH 1
+        INCREMENT BY 1
+        NO MINVALUE
+        NO MAXVALUE
+        CACHE 1;
+
+    ALTER SEQUENCE public.food_beverage_id_seq OWNED BY public.food_beverage.id;
+
+    CREATE TABLE public.interaction (
+        id integer NOT NULL,
+        state character varying,
+        name character varying,
+        status character varying
+    );
+
+    CREATE SEQUENCE public.interaction_id_seq
+        AS integer
+        START WITH 1
+        INCREMENT BY 1
+        NO MINVALUE
+        NO MAXVALUE
+        CACHE 1;
+
+    ALTER SEQUENCE public.interaction_id_seq OWNED BY public.interaction.id;
+
+    CREATE TABLE public.inventory (
+        id integer NOT NULL,
+        state character varying,
+        name character varying,
+        type character varying,
+        meta character varying,
+        status character varying
+    );
+
+    CREATE SEQUENCE public.inventory_id_seq
+        AS integer
+        START WITH 1
+        INCREMENT BY 1
+        NO MINVALUE
+        NO MAXVALUE
+        CACHE 1;
+
+    ALTER SEQUENCE public.inventory_id_seq OWNED BY public.inventory.id;
+
+    CREATE TABLE public.test (
+        food text,
+        color character varying(200)
+    );
+
+    CREATE TABLE public.to_do (
+        id integer NOT NULL,
+        name character varying,
+        status character varying,
+        "time" character varying,
+        recommendation character varying
+    );
+
+    CREATE SEQUENCE public.to_do_id_seq
+        AS integer
+        START WITH 1
+        INCREMENT BY 1
+        NO MINVALUE
+        NO MAXVALUE
+        CACHE 1;
+
+    ALTER SEQUENCE public.to_do_id_seq OWNED BY public.to_do.id;
+
+    CREATE TABLE public.to_do_retail (
+        id integer NOT NULL,
+        name character varying,
+        status character varying,
+        "time" character varying,
+        recommendation character varying
+    );
+
+    CREATE SEQUENCE public.to_do_retail_id_seq
+        AS integer
+        START WITH 1
+        INCREMENT BY 1
+        NO MINVALUE
+        NO MAXVALUE
+        CACHE 1;
+
+    ALTER SEQUENCE public.to_do_retail_id_seq OWNED BY public.to_do_retail.id;
+
+    ALTER TABLE ONLY public.food_beverage ALTER COLUMN id SET DEFAULT nextval('public.food_beverage_id_seq'::regclass);
+
+    ALTER TABLE ONLY public.interaction ALTER COLUMN id SET DEFAULT nextval('public.interaction_id_seq'::regclass);
+
+    ALTER TABLE ONLY public.inventory ALTER COLUMN id SET DEFAULT nextval('public.inventory_id_seq'::regclass);
+
+    ALTER TABLE ONLY public.to_do ALTER COLUMN id SET DEFAULT nextval('public.to_do_id_seq'::regclass);
+
+    ALTER TABLE ONLY public.to_do_retail ALTER COLUMN id SET DEFAULT nextval('public.to_do_retail_id_seq'::regclass);
+
+    COPY public.food_beverage (state, name, type, meta, id, status) FROM stdin;
+    Good	Walk-In Fridge	fridge	Temp: 39	1	ok
+    Good	Walk-In Freezer	freezer	Temp: 32	2	ok
+    Good	Dairy Cooler	cooler	Temp: 40	3	ok
+    Good	Coffee Pot	coffee	90%	5	ok
+    Bad	Soda Machine	soda	10%	4	issue
+    Bad	Table Status	table	30%	6	ok
+    \.
+
+    COPY public.interaction (id, state, name, status) FROM stdin;
+    1	3m wait	Drive Through	ok
+    2	1 waiting	Curbside	ok
+    3	12m wait	Inside	warning
+    \.
+
+    COPY public.inventory (id, state, name, type, meta, status) FROM stdin;
+    1	Bad	Wide Leg Pants	pants	Stock: 3	issue
+    3	Okay	Print Dresses	dress	Stock: 15	warning
+    4	Good	T-Shirts	shirt	Stock: 34	ok
+    5	Good	Joggers	pants	Stock: 23	ok
+    6	Good	Wind Jackets	jackets	Stock: 30	ok
+    2	Good	High Waist Jeans	pants	Stock: 28	ok
+    \.
+
+    COPY public.test (food, color) FROM stdin;
+    Turkey	\N
+    Bacon	\N
+    Chicken	\N
+    \.
+
+    COPY public.to_do (id, name, status, "time", recommendation) FROM stdin;
+    1	Debris on Table 6	Resolved	5:36 PM Today	Clear Table
+    3	Not enough Cashiers	Resolved	4:38 PM Today	Add Cashier
+    2	Coffee Pot Low	Resolved	3:00 PM Today	Refill
+    4	Low inventory	Resolved	4:35 PM Today	Heat more burgers
+    \.
+
+    COPY public.to_do_retail (id, name, status, "time", recommendation) FROM stdin;
+    1	Low inventory	Alert	5:56 PM Today	Restock Print Dresses
+    2	Fallen Clothes	Resolved	12:08 PM Today	Organize
+    3	Not enough Cashiers	Resolved	4:38 PM Today	Add Cashier
+    4	Liquid Spill	Resolved	4:35 PM Today	Associate Cleanup
+    \.
+
+    SELECT pg_catalog.setval('public.food_beverage_id_seq', 13, true);
+
+    SELECT pg_catalog.setval('public.interaction_id_seq', 3, true);
+
+    SELECT pg_catalog.setval('public.inventory_id_seq', 6, true);
+
+    SELECT pg_catalog.setval('public.to_do_id_seq', 4, true);
+
+    SELECT pg_catalog.setval('public.to_do_retail_id_seq', 4, true);
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: qsr-db
+  namespace: rotf
+  annotations:
+    prometheus.io/scrape: 'true'
+    prometheus.io/port:   '3000'
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: qsr-db
+  template:
+    metadata:
+      labels:
+        app: qsr-db
+    spec:
+      containers:
+      - name: postgres
+        image: postgres:14.1-alpine
+        volumeMounts:
+            - name: postgres-initdb-configmap
+              mountPath: /docker-entrypoint-initdb.d/
+        env:
+          - name: POSTGRES_USER
+            valueFrom:
+              configMapKeyRef:
+                name: rotf-db
+                key: DB_USER
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              configMapKeyRef:
+                name: rotf-db
+                key: DB_PWD    
+          - name: POSTGRES_DB
+            valueFrom:
+              configMapKeyRef:
+                name: rotf-db
+                key: DB_NAME
+      - name: postgres-exporter
+        image: prometheuscommunity/postgres-exporter
+        env:
+          - name: DATA_SOURCE_NAME
+            valueFrom:
+              configMapKeyRef:
+                name: rotf-db
+                key: DATA_SOURCE_NAME
+      volumes:
+        - name: postgres-initdb-configmap
+          configMap:
+            name: rotf-schema
+            items:
+              - key: initialize-database.sql
+                path: 1-init.sql
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: qsr-db
+  namespace: rotf
+spec:
+  type: ClusterIP
+  selector:
+    app: qsr-db
+  ports:
+  - name: postrges
+    port: 5432
+    targetPort: 5432
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: qsr-db-metrics
+  namespace: rotf
+spec:
+  type: ClusterIP
+  selector:
+    app: qsr-db
+  ports:
+  - name: postrges
+    port: 9187
+    targetPort: 9187
