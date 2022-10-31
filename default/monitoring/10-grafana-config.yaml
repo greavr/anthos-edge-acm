@@ -26,7 +26,7 @@ metadata:
   name: grafana-dashboards
   namespace: monitoring
 data:
-  dashboards.yaml: |-
+  dashboards.json: |-
     {
         "apiVersion": 1,
         "providers": [
@@ -42,7 +42,7 @@ data:
             }
         ]
     },
-  default.yaml: |-
+  default.json: |-
     {
     "__inputs": [
       {
