@@ -1,0 +1,74 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: qsr-ui
+  namespace: rotf
+  annotations:
+    prometheus.io/scrape: 'true'
+    prometheus.io/port:   '3000'
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: qsr-ui
+  template:
+    metadata:
+      labels:
+        app: qsr-ui
+    spec:
+      containers:
+      - name: qsr-ui
+        image: gcr.io/anthos-edge-361104/qsr-ui:latest
+        imagePullPolicy: Always
+        env:
+          - name: REACT_APP_BACKEND
+            value: "127.0.0.1:8000"
+      - name: qsr-api
+        image: gcr.io/anthos-edge-361104/qsr-api:latest
+        imagePullPolicy: Always
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 8000
+          initialDelaySeconds: 60
+          periodSeconds: 5
+          timeoutSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8000
+        env:
+          - name: DB_HOST
+            valueFrom:
+              configMapKeyRef:
+                name: rotf-db
+                key: DB_HOST
+          - name: DB_USER
+            valueFrom:
+              configMapKeyRef:
+                name: rotf-db
+                key: DB_USER
+          - name: DB_PWD
+            valueFrom:
+              configMapKeyRef:
+                name: rotf-db
+                key: DB_PWD
+          - name: DB
+            valueFrom:
+              configMapKeyRef:
+                name: rotf-db
+                key: DB_NAME
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: qsr-ui-service
+  namespace: rotf
+spec:
+  type: NodePort
+  selector:
+    app: qsr-ui
+  ports:
+  - protocol: TCP
+    port: 3000
+    nodePort: 32322
