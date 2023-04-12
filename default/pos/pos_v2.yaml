@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    configsync.gke.io/cluster-name-selector: abm-europe-west4
+    configsync.gke.io/cluster-name-selector: abm-europe-southwest1,abm-asia-northeast1,abm-us-west4
     prometheus.io/port: '9113'
     prometheus.io/scrape: 'true'
   name: pos
