@@ -1,0 +1,8 @@
+apiVersion: configmanagement.gke.io/v1
+kind: ClusterSelector
+metadata:
+  name: abm-southamerica-west1-sel
+spec:
+  selector:
+    matchLabels:
+      loc: southamerica-west1
